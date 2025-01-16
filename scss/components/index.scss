@@ -1,0 +1,255 @@
+// Переменные
+$primary-color: #2E8B57;
+$secondary-color: #F5F5F5;
+$text-color: #333;
+$border-radius: 8px;
+
+// Общие стили
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: $text-color;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+// Кнопки
+.btn {
+    padding: 12px 24px;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    
+    &-primary {
+        background-color: $primary-color;
+        color: white;
+        
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+    }
+}
+
+// Секция с ценами
+.pricing {
+    padding: 60px 0;
+    
+    &-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+    
+    &-card {
+        background: white;
+        padding: 30px;
+        border-radius: $border-radius;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        
+        .price {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: $primary-color;
+        }
+    }
+}
+
+// Программа обучения
+.program {
+    background-color: $secondary-color;
+    padding: 60px 0;
+    
+    &-blocks {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+    }
+}
+
+// Отзывы
+.testimonials {
+    padding: 60px 0;
+    
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+}
+
+// Медиа-запросы
+@media (max-width: 768px) {
+    .pricing-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .program-blocks {
+        grid-template-columns: 1fr;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Преимущества
+.benefits {
+    padding: 60px 0;
+    background-color: $secondary-color;
+
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .benefit-item {
+        text-align: center;
+        padding: 20px;
+
+        img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin-bottom: 15px;
+        }
+    }
+}
+
+// Как проходят занятия
+.how-it-works {
+    padding: 60px 0;
+
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .step {
+        text-align: center;
+        padding: 20px;
+        position: relative;
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: $primary-color;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-weight: bold;
+        }
+    }
+}
+
+// FAQ
+.faq {
+    padding: 60px 0;
+    background-color: $secondary-color;
+
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    &-item {
+        background: white;
+        padding: 20px;
+        border-radius: $border-radius;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        h3 {
+            margin-bottom: 10px;
+            color: $primary-color;
+        }
+    }
+}
+
+// Футер
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 60px 0 20px;
+
+    &-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    &-logo img {
+        max-width: 150px;
+    }
+
+    &-contacts, &-social {
+        h3 {
+            margin-bottom: 20px;
+        }
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+
+        .social-link {
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+
+    &-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+// Дополнительные медиа-запросы
+@media (max-width: 768px) {
+    .benefits-grid,
+    .steps-grid,
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+
+        .social-links {
+            justify-content: center;
+        }
+    }
+}

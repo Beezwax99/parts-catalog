@@ -185,87 +185,92 @@ document.addEventListener("DOMContentLoaded", () => {
     let placeTexts = document.querySelectorAll(".place__text");
     let toggleButtons = document.querySelectorAll(".place__text--more");
 
-    let startY = 0, startHeight = 300, isDragging = false;
+    // Check if the necessary elements exist
+    if (dragHandle && placeSection && header && placeTexts.length > 0 && toggleButtons.length > 0) {
 
-    let startDrag = (e) => {
-        isDragging = true;
-        startY = e.touches ? e.touches[0].clientY : e.clientY;
-        startHeight = placeSection.getBoundingClientRect().height;
-        placeSection.style.transition = "none";
-    };
+        let startY = 0, startHeight = 300, isDragging = false;
 
-    let onDrag = (e) => {
-        if (!isDragging) return;
+        let startDrag = (e) => {
+            isDragging = true;
+            startY = e.touches ? e.touches[0].clientY : e.clientY;
+            startHeight = placeSection.getBoundingClientRect().height;
+            placeSection.style.transition = "none";
+        };
 
-        let currentY = e.touches ? e.touches[0].clientY : e.clientY;
-        let deltaY = startY - currentY;
-        let headerHeight = header.getBoundingClientRect().height;
-        let newHeight = Math.min(
-            window.innerHeight - headerHeight,
-            Math.max(250, startHeight + deltaY)
-        );
+        let onDrag = (e) => {
+            if (!isDragging) return;
 
-        placeSection.style.height = `${newHeight}px`;
+            let currentY = e.touches ? e.touches[0].clientY : e.clientY;
+            let deltaY = startY - currentY;
+            let headerHeight = header.getBoundingClientRect().height;
+            let newHeight = Math.min(
+                window.innerHeight - headerHeight,
+                Math.max(250, startHeight + deltaY)
+            );
 
-        placeTexts.forEach(text => {
-            if (newHeight > window.innerHeight * 0.7) {
-                text.classList.add("expanded");
-            } else {
-                text.classList.remove("expanded");
-            }
-        });
+            placeSection.style.height = `${newHeight}px`;
 
-        toggleButtons.forEach(button => {
             placeTexts.forEach(text => {
-                if (text.classList.contains("expanded")) {
-                    button.textContent = "See less";
+                if (newHeight > window.innerHeight * 0.7) {
+                    text.classList.add("expanded");
                 } else {
-                    button.textContent = "See more...";
+                    text.classList.remove("expanded");
                 }
             });
-        });
-    };
 
-    let stopDrag = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        placeSection.style.transition = "height 0.3s ease";
+            toggleButtons.forEach(button => {
+                placeTexts.forEach(text => {
+                    if (text.classList.contains("expanded")) {
+                        button.textContent = "See less";
+                    } else {
+                        button.textContent = "See more...";
+                    }
+                });
+            });
+        };
 
-        let currentHeight = placeSection.getBoundingClientRect().height;
-        let headerHeight = header.getBoundingClientRect().height;
+        let stopDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            placeSection.style.transition = "height 0.3s ease";
 
-        placeSection.style.height = currentHeight > window.innerHeight * 0.7
-            ? `${window.innerHeight - headerHeight}px`
-            : currentHeight < 400
-            ? "250px"
-            : `${currentHeight}px`;
+            let currentHeight = placeSection.getBoundingClientRect().height;
+            let headerHeight = header.getBoundingClientRect().height;
 
-        placeTexts.forEach(text => {
-            if (currentHeight > window.innerHeight * 0.7) {
-                text.classList.add("expanded"); 
-            } else {
-                text.classList.remove("expanded"); 
-            }
-        });
+            placeSection.style.height = currentHeight > window.innerHeight * 0.7
+                ? `${window.innerHeight - headerHeight}px`
+                : currentHeight < 400
+                ? "250px"
+                : `${currentHeight}px`;
 
-        toggleButtons.forEach(button => {
             placeTexts.forEach(text => {
-                if (text.classList.contains("expanded")) {
-                    button.textContent = "See less";
+                if (currentHeight > window.innerHeight * 0.7) {
+                    text.classList.add("expanded"); 
                 } else {
-                    button.textContent = "See more...";
+                    text.classList.remove("expanded"); 
                 }
             });
-        });
-    };
 
-    dragHandle.addEventListener("mousedown", startDrag);
-    dragHandle.addEventListener("touchstart", startDrag);
-    document.addEventListener("mousemove", onDrag);
-    document.addEventListener("touchmove", onDrag);
-    document.addEventListener("mouseup", stopDrag);
-    document.addEventListener("touchend", stopDrag);
+            toggleButtons.forEach(button => {
+                placeTexts.forEach(text => {
+                    if (text.classList.contains("expanded")) {
+                        button.textContent = "See less";
+                    } else {
+                        button.textContent = "See more...";
+                    }
+                });
+            });
+        };
+
+        dragHandle.addEventListener("mousedown", startDrag);
+        dragHandle.addEventListener("touchstart", startDrag);
+        document.addEventListener("mousemove", onDrag);
+        document.addEventListener("touchmove", onDrag);
+        document.addEventListener("mouseup", stopDrag);
+        document.addEventListener("touchend", stopDrag);
+    }
 });
+
 
 // Modal for gallery
 document.addEventListener("DOMContentLoaded", () => {
