@@ -1,0 +1,90 @@
+.services {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 18px 0;
+    padding-bottom: 40px;
+    background: white;
+    gap: 18px;
+    justify-content: flex-start;
+    @include response-min(420px) {
+        padding: 18px 10px;
+        padding-bottom: 40px;
+    }
+    @include response-min(568px) {
+        padding: 22px 26px;
+        width: 454px;
+        position: relative;
+        margin-top: 34px;
+        width: 100%;
+    }
+
+
+    &.mob-hidden {
+        display: none;
+    }
+    &.pc-hidden {
+        display: flex;
+    }
+    @include response-min(568px) {
+        &.mob-hidden {
+            display: flex;
+        }
+        &.pc-hidden {
+            display: none;
+        }
+    }
+
+    &__item {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 13px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: $bg-gray;
+        color: $text-gray;
+        height: 124px;
+        width: 30%;
+        gap: 0;
+        @include response-min(390px) {
+            width: 118px;
+            gap: 12px;
+        }
+        svg {
+            width: 47px;
+            height: 47px;
+        }
+        &--active {
+            background: $accent;
+            color: $white;
+            .services__icon {
+                svg path {
+                    fill: $white;
+                }
+            }
+        }
+    }
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 68px;
+        height: 68px;
+        img, svg {
+            object-fit: contain;
+        }
+    }
+    &__text {
+        font-size: 12px;
+        letter-spacing: 1px;
+        margin-top: auto;
+    }
+}

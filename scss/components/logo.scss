@@ -1,0 +1,8 @@
+.logo {
+    display: block;
+    width: 48px;
+    height: 54px;
+    img {
+        @include object-contain;
+    }
+}

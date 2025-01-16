@@ -1,0 +1,15 @@
+@import 'variables';
+@import 'mixins';
+@import 'global';
+
+@import 'components/logo';
+@import 'components/header';
+@import 'components/search';
+@import 'components/places';
+@import 'components/rating';
+@import 'components/place';
+@import 'components/distance';
+@import 'components/map';
+@import 'components/services';
+
+@import 'components/popup';

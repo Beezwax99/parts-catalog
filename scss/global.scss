@@ -1,0 +1,32 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 320px;
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.2;
+    height: 100vh;
+    overflow-y: hidden;
+}
+.mob-hidden {
+    display: none;
+}
+.pc-hidden {
+    display: block;
+}
+@include response-min(568px) {
+    .mob-hidden {
+        display: block;
+    }
+    .pc-hidden {
+        display: none;
+    }
+}
+

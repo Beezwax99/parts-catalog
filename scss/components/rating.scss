@@ -1,0 +1,51 @@
+.rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 6px;
+    &__star {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' viewBox='0 0 14 13' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7 10.5L2.8855 12.6631L3.6713 8.08156L0.342604 4.83688L4.94275 4.16844L7 0L9.05725 4.16844L13.6574 4.83688L10.3287 8.08156L11.1145 12.6631L7 10.5Z' fill='%23FEA25F'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: block;
+        width: 14px;
+        height: 14px;
+    }
+    &__score {
+        font-size: 12px;
+        line-height: 1;
+        color: $gray_2;
+    }
+    &__reviews {
+        display: block;
+        font-size: 11px;
+        line-height: 1;
+        letter-spacing: 1.1px;
+        color: $blue;
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    &__choise {
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M8 12.5L3.8855 14.6631L4.6713 10.0816L1.3426 6.83688L5.94275 6.16844L8 2L10.0572 6.16844L14.6574 6.83688L11.3287 10.0816L12.1145 14.6631L8 12.5Z' fill='white' stroke='%23FEA25F'/%3E%3C/svg%3E%0A");
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: block;
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        &.active {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' viewBox='0 0 14 13' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7 10.5L2.8855 12.6631L3.6713 8.08156L0.342604 4.83688L4.94275 4.16844L7 0L9.05725 4.16844L13.6574 4.83688L10.3287 8.08156L11.1145 12.6631L7 10.5Z' fill='%23FEA25F'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: block;
+            width: 14px;
+            height: 14px;
+        }
+    }
+}

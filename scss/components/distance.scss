@@ -1,0 +1,24 @@
+.distance {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    &--icon {
+        width: 36px;
+        height: 36px;
+        display: block;
+        flex-shrink: 0;
+    }
+    &--content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        color: $address;
+        font-size: 12px;
+        line-height: 1;
+        letter-spacing: 1px;
+        span {
+            color: $dark;
+            font-weight: 600;
+        }
+    }
+}
