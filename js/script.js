@@ -177,35 +177,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     
-    const mapMarkers = document.querySelectorAll('.map__marker');
-    
+   let mapMarkers = document.querySelectorAll('.map__marker');
+
     mapMarkers.forEach(marker => {
         marker.addEventListener('click', function() {
-            const placeId = marker.getAttribute('data-id');
+            let placeId = marker.getAttribute('data-id');
+            let currentActive = document.querySelector('.place.active');
             
-            // Сначала скрываем все активные элементы
-            const currentActive = document.querySelector('.place.active');
             if (currentActive) {
                 currentActive.classList.remove('active');
             }
-
-            // Показываем новый элемент
-            const activeElement = document.querySelector(`#${placeId}`);
+    
+            let activeElement = document.querySelector(`#${placeId}`);
             if (activeElement) {
                 activeElement.classList.add('active');
             }
-
+    
             if (search) {
                 search.classList.add('places-hidden');
             }
-
-            // Скрываем все видимые места
+    
             document.querySelectorAll('.place-visible').forEach(place => {
                 place.classList.remove('place-visible');
             });
-
-            // Показываем выбранное место
-            const targetPlace = document.querySelector(`[data-id="${placeId}"]`);
+    
+            let targetPlace = document.querySelector(`[data-id="${placeId}"]`);
             if (targetPlace) {
                 targetPlace.classList.add('place-visible');
             }
