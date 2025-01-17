@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Places
     const placesCards = document.querySelectorAll('.places-card');
     const search = document.querySelector('.search');
-    const backButton = document.querySelector('.place__back');
+    const backButtons = document.querySelectorAll('.place__back');
 
     placesCards.forEach(card => {
         card.addEventListener('click', function() {
@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    if (backButton) {
+
+    backButtons.forEach(backButton => {
         backButton.addEventListener('click', function() {
             const activeElement = document.querySelector('.place.active');
             if (activeElement) {
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-    }
+    });
 
     // Tabs in places
     const places = document.querySelectorAll('.place');
@@ -93,24 +94,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    // Show more images
-    const toggleBtn = document.querySelector('.place__gallery--btn');
-    const extraImages = document.querySelectorAll('.place__gallery--item.extra');
+    // Gallery
+    const galleryContents = document.querySelectorAll('.place__gallery--content');
 
-    if (!toggleBtn || extraImages.length === 0) return;
+    galleryContents.forEach((content) => {
+        const toggleBtn = content.querySelector('.place__gallery--btn');
+        const extraImages = content.querySelectorAll('.place__gallery--item.extra');
 
-    function updateButton() {
-        const hiddenCount = extraImages.length;
-        toggleBtn.textContent = `+${hiddenCount}`;
-    }
+        if (!toggleBtn || extraImages.length === 0) return;
 
-    toggleBtn.addEventListener('click', function() {
-        extraImages.forEach(function(img) {
-            img.style.display = 'block';
+        function updateButton() {
+            const hiddenCount = extraImages.length;
+            toggleBtn.textContent = `+${hiddenCount}`;
+        }
+
+        toggleBtn.addEventListener('click', function () {
+            extraImages.forEach((img) => {
+                img.style.display = 'block';
+            });
+            toggleBtn.style.display = 'none';
         });
-        toggleBtn.style.display = 'none';
+
+        updateButton();
     });
-    updateButton();
+
     
     
     // See more text
@@ -148,25 +155,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-
-    const openPopupLink = document.querySelector('a[href="#add-review"]');
+    // Add review
+    const openPopupLinks = document.querySelectorAll('a[href="#add-review"]');
     const closePopupBtn = document.querySelector('.popup__close');
     const popup = document.getElementById('add-review');
-    
-    if (openPopupLink && popup) {
-        openPopupLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            popup.classList.add('active');
+
+    if (popup) {
+        openPopupLinks.forEach((link) => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                popup.classList.add('active');
+            });
         });
+
+        if (closePopupBtn) {
+            closePopupBtn.addEventListener('click', function() {
+                popup.classList.remove('active');
+            });
+        }
     }
 
-    if (closePopupBtn && popup) {
-        closePopupBtn.addEventListener('click', function() {
-            popup.classList.remove('active');
+    
+    
+    const mapMarkers = document.querySelectorAll('.map__marker');
+    
+    mapMarkers.forEach(marker => {
+        marker.addEventListener('click', function() {
+            const placeId = marker.getAttribute('data-id');
+            
+            // Сначала скрываем все активные элементы
+            const currentActive = document.querySelector('.place.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+
+            // Показываем новый элемент
+            const activeElement = document.querySelector(`#${placeId}`);
+            if (activeElement) {
+                activeElement.classList.add('active');
+            }
+
+            if (search) {
+                search.classList.add('places-hidden');
+            }
+
+            // Скрываем все видимые места
+            document.querySelectorAll('.place-visible').forEach(place => {
+                place.classList.remove('place-visible');
+            });
+
+            // Показываем выбранное место
+            const targetPlace = document.querySelector(`[data-id="${placeId}"]`);
+            if (targetPlace) {
+                targetPlace.classList.add('place-visible');
+            }
         });
-    }
-    
-    
+    });
 });
 
 // Remove item of search__tag
@@ -179,98 +223,121 @@ document.querySelectorAll('.search__tag span').forEach(function(span) {
 
 //draggable places
 document.addEventListener("DOMContentLoaded", () => {
-    let dragHandle = document.querySelector(".place__drag-handle");
-    let placeSection = document.querySelector(".place");
+    let dragHandles = document.querySelectorAll(".place__drag-handle");
+    let places = document.querySelectorAll(".place");
     let header = document.querySelector(".header");
     let placeTexts = document.querySelectorAll(".place__text");
     let toggleButtons = document.querySelectorAll(".place__text--more");
 
-    // Check if the necessary elements exist
-    if (dragHandle && placeSection && header && placeTexts.length > 0 && toggleButtons.length > 0) {
+    if (dragHandles.length && places.length && header && placeTexts.length > 0 && toggleButtons.length > 0) {
+        dragHandles.forEach((dragHandle, index) => {
+            let startY = 0, startHeight = 300, isDragging = false;
+            const MIN_HEIGHT = 50;
+            let currentPlace = places[index];
 
-        let startY = 0, startHeight = 300, isDragging = false;
+            let isWithinBounds = (e) => {
+                let rect = dragHandle.getBoundingClientRect();
+                let y = e.touches ? e.touches[0].clientY : e.clientY;
+                return y >= rect.top && y <= rect.bottom;
+            };
 
-        let startDrag = (e) => {
-            isDragging = true;
-            startY = e.touches ? e.touches[0].clientY : e.clientY;
-            startHeight = placeSection.getBoundingClientRect().height;
-            placeSection.style.transition = "none";
-        };
+            let startDrag = (e) => {
+                if (!isWithinBounds(e)) return;
 
-        let onDrag = (e) => {
-            if (!isDragging) return;
+                isDragging = true;
+                startY = e.touches ? e.touches[0].clientY : e.clientY;
+                startHeight = currentPlace.getBoundingClientRect().height;
 
-            let currentY = e.touches ? e.touches[0].clientY : e.clientY;
-            let deltaY = startY - currentY;
-            let headerHeight = header.getBoundingClientRect().height;
-            let newHeight = Math.min(
-                window.innerHeight - headerHeight,
-                Math.max(250, startHeight + deltaY)
-            );
+                currentPlace.style.transition = "none";
+                currentPlace.style.overflowY = "hidden";
+            };
 
-            placeSection.style.height = `${newHeight}px`;
+            let onDrag = (e) => {
+                if (!isDragging) return;
 
-            placeTexts.forEach(text => {
-                if (newHeight > window.innerHeight * 0.7) {
-                    text.classList.add("expanded");
+                let currentY = e.touches ? e.touches[0].clientY : e.clientY;
+                let deltaY = startY - currentY;
+                let headerHeight = header.getBoundingClientRect().height;
+                let newHeight = Math.min(
+                    window.innerHeight - headerHeight,
+                    Math.max(MIN_HEIGHT, startHeight + deltaY)
+                );
+
+                currentPlace.style.height = `${newHeight}px`;
+
+                if (newHeight === MIN_HEIGHT) {
+                    currentPlace.classList.remove("active");
+                    currentPlace.style.height = `350px`;
                 } else {
-                    text.classList.remove("expanded");
+                    currentPlace.classList.add("active");
                 }
-            });
 
-            toggleButtons.forEach(button => {
-                placeTexts.forEach(text => {
-                    if (text.classList.contains("expanded")) {
-                        button.textContent = "See less";
+                const currentPlaceTexts = currentPlace.querySelectorAll('.place__text');
+                const currentToggleButtons = currentPlace.querySelectorAll('.place__text--more');
+
+                currentPlaceTexts.forEach(text => {
+                    if (newHeight > window.innerHeight * 0.7) {
+                        text.classList.add("expanded");
                     } else {
-                        button.textContent = "See more...";
+                        text.classList.remove("expanded");
                     }
                 });
-            });
-        };
 
-        let stopDrag = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            placeSection.style.transition = "height 0.3s ease";
+                currentToggleButtons.forEach(button => {
+                    currentPlaceTexts.forEach(text => {
+                        if (text.classList.contains("expanded")) {
+                            button.textContent = "See less";
+                        } else {
+                            button.textContent = "See more...";
+                        }
+                    });
+                });
+            };
 
-            let currentHeight = placeSection.getBoundingClientRect().height;
-            let headerHeight = header.getBoundingClientRect().height;
+            let stopDrag = () => {
+                if (!isDragging) return;
+                isDragging = false;
 
-            placeSection.style.height = currentHeight > window.innerHeight * 0.7
-                ? `${window.innerHeight - headerHeight}px`
-                : currentHeight < 400
-                ? "250px"
-                : `${currentHeight}px`;
+                let currentHeight = currentPlace.getBoundingClientRect().height;
+                currentPlace.style.transition = "height 0.3s ease";
+                currentPlace.style.overflowY = "auto";
+                let headerHeight = header.getBoundingClientRect().height;
 
-            placeTexts.forEach(text => {
                 if (currentHeight > window.innerHeight * 0.7) {
-                    text.classList.add("expanded"); 
-                } else {
-                    text.classList.remove("expanded"); 
+                    currentPlace.style.height = `${window.innerHeight - headerHeight}px`;
                 }
-            });
 
-            toggleButtons.forEach(button => {
-                placeTexts.forEach(text => {
-                    if (text.classList.contains("expanded")) {
-                        button.textContent = "See less";
+                const currentPlaceTexts = currentPlace.querySelectorAll('.place__text');
+                const currentToggleButtons = currentPlace.querySelectorAll('.place__text--more');
+
+                currentPlaceTexts.forEach(text => {
+                    if (currentHeight > window.innerHeight * 0.7) {
+                        text.classList.add("expanded");
                     } else {
-                        button.textContent = "See more...";
+                        text.classList.remove("expanded");
                     }
                 });
-            });
-        };
 
-        dragHandle.addEventListener("mousedown", startDrag);
-        dragHandle.addEventListener("touchstart", startDrag);
-        document.addEventListener("mousemove", onDrag);
-        document.addEventListener("touchmove", onDrag);
-        document.addEventListener("mouseup", stopDrag);
-        document.addEventListener("touchend", stopDrag);
+                currentToggleButtons.forEach(button => {
+                    currentPlaceTexts.forEach(text => {
+                        if (text.classList.contains("expanded")) {
+                            button.textContent = "See less";
+                        } else {
+                            button.textContent = "See more...";
+                        }
+                    });
+                });
+            };
+
+            dragHandle.addEventListener("mousedown", startDrag);
+            dragHandle.addEventListener("touchstart", startDrag);
+            document.addEventListener("mousemove", onDrag);
+            document.addEventListener("touchmove", onDrag);
+            document.addEventListener("mouseup", stopDrag);
+            document.addEventListener("touchend", stopDrag);
+        });
     }
 });
-
 
 // Modal for gallery
 document.addEventListener("DOMContentLoaded", () => {

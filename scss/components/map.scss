@@ -18,6 +18,7 @@
         height: 100%;
     }
     &__marker {
+        cursor: pointer;
         position: absolute;
         padding: 5px;
         display: flex;

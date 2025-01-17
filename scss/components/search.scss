@@ -8,6 +8,7 @@
     padding: 0 20px;
     box-sizing: border-box;
     max-width: 454px;
+    min-width: 320px;
     @include response-min(568px) {
         max-width: unset;
         width: 454px;
@@ -42,14 +43,17 @@
         }
     }
     &__input {
-        padding: 12px;
+        padding: 10px;
         padding-left: 40px;
         width: 100%;
         border: none;
-        font-size: 16px;
+        font-size: 14px;
+        letter-spacing: 0.77px;
         background: $white;
         color: $gray;
         border: 1px solid $stroke;
+        line-height: 1.15;
+        height: 40px;
         cursor: pointer;
         &::placeholder {
             color: $gray;
@@ -59,11 +63,14 @@
             outline: 1px solid $blue;
         }
         @include response-min(1200px) {
-            font-size: 18px;
+            font-size: 18.2px;
+            letter-spacing: 0;
             padding: 15px;
             padding-left: 54px;
         }
         @include response-min(568px) {
+            height: 52px;
+
             &:focus, 
             &:focus-visible {
                 outline: none;
@@ -84,14 +91,23 @@
             border: 1px solid $stroke;
             color: $gray;
             font-size: 12px;
+            letter-spacing: 0.86px;
+            line-height: 1.15;
             cursor: pointer;
             appearance: none; 
             -webkit-appearance: none;
             -moz-appearance: none;
+            height: 40px;
+
             @include response-min(1200px) {
+                height: 52px;
                 font-size: 15.6px;
                 padding: 15px;
                 padding-left: 54px;
+            }
+            &:focus, 
+            &:focus-visible {
+                outline: 1px solid $blue;
             }
         }
         &::before {
@@ -115,8 +131,8 @@
         &::after {
             content: '';
             display: block;
-            width: 10px;
-            height: 6px;
+            width: 13px;
+            height: 8px;
             position: absolute;
             right: 16px;
             top: 50%;

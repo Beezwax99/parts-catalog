@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     background: $white;
-    padding: 12px 0 18px 20px;
+    padding: 30px 0 18px 20px;
     display: none;
     &.active {
         display: block;
@@ -13,21 +13,32 @@
     
     @include response-min(568px) {
         max-height: unset;
-
         position: relative;
         padding: 14px 0 22px 50px;
     }
     
     &__drag-handle {
         width: 58px;
-        height: 5px;
-        background: $dragger;
+        height: 20px;
         border-radius: 2.5px;
-        margin: 0 auto;
-        margin-bottom: 12px;
         cursor: grab;
+        position: absolute;
+        left: 50%;
+        top: 12px;
+        z-index: 100;
+        transform: translateX(-50%);
         @include response-min(568px) {
             display: none;
+        }
+        &::before{
+            position: absolute;
+            content: '';
+            display: block;
+            width: 58px;
+            height: 5px;
+            background: $dragger;
+            border-radius: 2.5px;
+            top: 0px;
         }
     }
     &__back {
@@ -253,20 +264,20 @@
                 height: 5px;
               }
           
-                &::-webkit-scrollbar-thumb {
+            &::-webkit-scrollbar-thumb {
                 background: $accent;
                 border-radius: 5px;
                 transition:  all .3s ease-in-out;
-              }
+            }
           
-                &::-webkit-scrollbar-thumb:hover {
+            &::-webkit-scrollbar-thumb:hover {
                 background: darken($accent, 10%);
-              }
+            }
           
-                &::-webkit-scrollbar-track {
+            &::-webkit-scrollbar-track {
                 background: #eaeaea;
                 border-radius: 10px;
-              }
+            }
         }
         &--list {
             display: flex;
@@ -289,6 +300,7 @@
             }
             img {
                 @include object-cover;
+                cursor: pointer;
             }
         }
         &--btn {
@@ -308,6 +320,10 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            @include response-min(568px) {
+                width: 70.4px;
+                height: 70.4px;
+            }
         }
     }    
     &__review {
