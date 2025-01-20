@@ -175,9 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    
-    
-   let mapMarkers = document.querySelectorAll('.map__marker');
+    let mapMarkers = document.querySelectorAll('.map__marker');
 
     mapMarkers.forEach(marker => {
         marker.addEventListener('click', function() {
@@ -228,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dragHandles.length && places.length && header && placeTexts.length > 0 && toggleButtons.length > 0) {
         dragHandles.forEach((dragHandle, index) => {
             let startY = 0, startHeight = 300, isDragging = false;
-            const MIN_HEIGHT = 50;
+            const MIN_HEIGHT = 100;
             let currentPlace = places[index];
 
             let isWithinBounds = (e) => {
@@ -261,11 +259,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 currentPlace.style.height = `${newHeight}px`;
 
-                if (newHeight === MIN_HEIGHT) {
-                    currentPlace.classList.remove("active");
-                    currentPlace.style.height = `350px`;
-                } else {
-                    currentPlace.classList.add("active");
+                if (newHeight <= MIN_HEIGHT + 10) {
+                    currentPlace.style.transition = "all 0.3s ease";
+                    currentPlace.style.transform = "translateY(100%)";
+                    currentPlace.style.opacity = "0";
+                    
+                    setTimeout(() => {
+                        currentPlace.classList.remove("active");
+                        currentPlace.style.height = "350px";
+                        currentPlace.style.transform = "translateY(0)";
+                        currentPlace.style.opacity = "1";
+                        isDragging = false;
+                        
+                        if (search) {
+                            search.classList.remove('places-hidden');
+                        }
+                    }, 300);
+                    
+                    return;
                 }
 
                 const currentPlaceTexts = currentPlace.querySelectorAll('.place__text');
