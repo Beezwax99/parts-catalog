@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 currentPlace.style.height = `${newHeight}px`;
 
-                if (newHeight <= MIN_HEIGHT + 10) {
+                if (newHeight <= MIN_HEIGHT) {
                     currentPlace.style.transition = "all 0.3s ease";
                     currentPlace.style.transform = "translateY(100%)";
                     currentPlace.style.opacity = "0";
