@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dragHandles.length && places.length && header && placeTexts.length > 0 && toggleButtons.length > 0) {
         dragHandles.forEach((dragHandle, index) => {
             let startY = 0, startHeight = 300, isDragging = false;
-            const MIN_HEIGHT = 100;
+            const MIN_HEIGHT = 120;
             let currentPlace = places[index];
 
             let isWithinBounds = (e) => {
